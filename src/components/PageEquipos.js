@@ -35,7 +35,7 @@ class PageEquipos extends Component{
       }
     
       peticionPost = async () => {
-        delete this.state.form.dep_id //esto borra el campo usu_id
+        delete this.state.form.equi_id //esto borra el campo usu_id
         await axios.post(url, this.state.form).then(response => {
           this.modalInsertar()
           this.peticionGet()
@@ -45,7 +45,7 @@ class PageEquipos extends Component{
       }
     
       peticionPut = () => {
-        axios.put(url+field_id+this.state.form.dep_id,this.state.form).then(response => {
+        axios.put(url+field_id+this.state.form.equi_id,this.state.form).then(response => {
           this.modalInsertar()
           this.peticionGet()
         }).catch(error => {

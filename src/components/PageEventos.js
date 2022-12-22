@@ -9,7 +9,7 @@ import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 
 const url = 'http://localhost:9000/api/marcadores'
-const urlEquipos = 'http://localhost:9000/api/equipos' /////////
+const urlEquipos = 'http://localhost:9000/api/equipo' /////////
 const urlDeportes = 'http://localhost:9000/api/deportes' ////////
 const field_id = '/mar_id/'
 
@@ -43,11 +43,11 @@ class PageEventos extends Component {
 
       // Si el usuario es admin entonces se muestran los marcadores de todos los usuarios
       // si no es admin solo se muestran sus marcadores
-      if (cookies.get('usu_nombres')=='admin') {
+      if (cookies.get('usu_nombres')==='admin') {
         this.setState({ data: response.data })
       }else{
         const usuId = cookies.get('usu_id')
-        const marcadoresById = response.data.filter(marcador => marcador.usu_id == usuId)
+        const marcadoresById = response.data.filter(marcador => marcador.usu_id === usuId)
         console.log(usuId)
         console.log(marcadoresById)
         this.setState({ data: marcadoresById })
@@ -149,10 +149,10 @@ class PageEventos extends Component {
   //se ejecuta cuando lo realiza
   componentDidMount() {
     //Guarda el id del usuario logeado en la variable de estado form (a menos que el usuario sea admin)
-    if(cookies.get('usu_nombres') !='admin'){
-      this.setState({ form: {
+    if(cookies.get('usu_nombres') !=='admin'){
+      this.setState({ form: {                                                                                                                                                                                                                                              
         ...this.state.form,
-        ['usu_id']: cookies.get('usu_id')
+        'usu_id' : cookies.get('usu_id')
       }} );
     } 
     this.peticionGet();
@@ -178,7 +178,7 @@ class PageEventos extends Component {
 
     return (
       <div className="App">
-        <h1> TABLA MARCADORES</h1>
+        <h1>Zona de Marcadores</h1>
         <br /><br /><br />
         <button 
           className="btn btn-success" 
@@ -188,7 +188,7 @@ class PageEventos extends Component {
             // Si usuario == admin entonces el comportamiento es igual al se antes
             // se deja la variable form vacia
             // Si usuario es diferente de admin entonces se vacia el form pero se conserva el usu_id
-            cookies.get('usu_nombres')=='admin'?
+            cookies.get('usu_nombres')==='admin'?
               this.setState({form: null})
             :
               this.setState({form: {'usu_id': cookies.get('usu_id')}})
@@ -198,7 +198,7 @@ class PageEventos extends Component {
           Agregar Marcador
         </button>
         <br /><br />
-        <table className="table ">
+        <table className="table table-success table-striped">
           <thead>
             <tr>
               <th>ID</th>
@@ -210,7 +210,6 @@ class PageEventos extends Component {
               <th>ID Equipo 2</th>
               <th>Mar Equipo 1</th>
               <th>Mar Equipo 2</th>
-              <th>ID Deporte</th>
               <th>ID Usuario</th>
               <th>Acciones</th>
             </tr>
@@ -228,7 +227,6 @@ class PageEventos extends Component {
                   <td>{marcador.equi_id2}</td>
                   <td>{marcador.mar_marcadorequi1}</td>
                   <td>{marcador.mar_marcadorequi2}</td>
-                  <td>{marcador.dep_id}</td>
                   <td>{marcador.usu_id}</td>
                   <td><button className="btn btn-primary"><FontAwesomeIcon icon={faEdit} onClick={() => { this.seleccionarDeporte(marcador); this.modalInsertar() }} /></button>
                     {" "}
@@ -393,9 +391,9 @@ class PageEventos extends Component {
               <br />
 
               {/* El hidden es para mostrar este input solo al admin */}
-              <label htmlFor="usu_id" hidden={cookies.get('usu_nombres')!='admin'}>ID Usuario</label>
+              <label htmlFor="usu_id" hidden={cookies.get('usu_nombres')!=='admin'}>ID Usuario</label>
               <input 
-                hidden={cookies.get('usu_nombres')!='admin'}
+                hidden={cookies.get('usu_nombres')!=='admin'}
                 className="form-control" 
                 type="text" 
                 name="usu_id" 
